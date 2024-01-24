@@ -38,7 +38,7 @@ class TablesRearrangement {
                 numOfSuccessfulRearrangements++;
             }
             rearrangementsResults[numOfSmallTablesContainedInBigTables]++;
-            
+
             let newTablesInOneString = `New tables after rearrangement number ${rearrangementAttempt}: `;
             for (let newTableIndex = 0; newTableIndex < newTablesArray.length; newTableIndex++){
                 newTablesInOneString = `${newTablesInOneString}  [${newTablesArray[newTableIndex]}]`;
@@ -52,6 +52,7 @@ class TablesRearrangement {
             console.log(`Total rearrangements with exactly ${i} tables contain people who sat together in original table: ${rearrangementsResults[i]}`);
         }
     }
+    
 }
 
 const tablesRearrangement = new TablesRearrangement();
