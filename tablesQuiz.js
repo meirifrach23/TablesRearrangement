@@ -1,3 +1,14 @@
+// For example: let's rearrange 3 tables with 4 people each, into 4 tables of 3 people each. The purpose of this code
+// is to create large number of rearrangements and calculate the probability to get rearrangement that will contain at least
+// one new table that all 3 people in this table were sit together in their original table of 4.
+// let's say we have 3 tables of 4 people (people are marked by numbers between 1-12):
+// table A: 1,2,3,4
+// table B: 5,6,7,8
+// table C: 9,10,11,12
+// let's rearrange the 12 people in 4 new tables:
+// Rearrangement for example that fit the requirements: (1,2,4) (3,5,9) (6,7,10) (8,11,12)
+// Rearrangement for example that does not fit the requirements: (1,5,9) (2,6,10) (3,7,11) (4,8,12)
+
 class TablesRearrangement {
 
     rearrangePeopleInNewTablesSize(numOfOriginalTables, numOfPeopleInEachOriginalTable, totalRearrangements, numOfNewTables = numOfPeopleInEachOriginalTable, numOfPeopleInEachNewTable = numOfOriginalTables){
