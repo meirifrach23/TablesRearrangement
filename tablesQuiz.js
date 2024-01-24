@@ -1,5 +1,5 @@
-// For example: let's rearrange 3 tables with 4 people each, into 4 tables of 3 people each. The purpose of this code
-// is to create large number of rearrangements and calculate the probability to get rearrangement that will contain at least
+// For example: let's rearrange 3 tables with 4 people each, into 4 tables of 3 people each.
+// The purpose of this code is to create large number of rearrangements and calculate the probability to get rearrangement that will contain at least
 // one new table which all 3 people in this table would come from same original table of 4.
 // let's say we have 3 tables of 4 people while all 12 people are marked by numbers between 1-12:
 // table A: 1,2,3,4
@@ -33,16 +33,17 @@ class TablesRearrangement {
         for (let rearrangementAttempt = 1; rearrangementAttempt <= totalRearrangements; rearrangementAttempt++){
             const newPeopleArray = shuffleArray(originalPeopleArray);
             const newTablesArray = prepareArrayOfSubArrays(newPeopleArray, numOfPeopleInEachNewTable, numOfNewTables);
-            let newTablesInOneString = `New tables after rearrangement number ${rearrangementAttempt}: `;
-            for (let newTableIndex = 0; newTableIndex < newTablesArray.length; newTableIndex++){
-                newTablesInOneString = `${newTablesInOneString}  [${newTablesArray[newTableIndex]}]`;
-            }
-            console.log(newTablesInOneString);
             const numOfSmallTablesContainedInBigTables = checkIfSubArraysOfArrayContainedInSubArraysOfOtherArray(newTablesArray, originalTablesArray);
             if (numOfSmallTablesContainedInBigTables > 0){
                 numOfSuccessfulRearrangements++;
             }
             rearrangementsResults[numOfSmallTablesContainedInBigTables]++;
+            
+            let newTablesInOneString = `New tables after rearrangement number ${rearrangementAttempt}: `;
+            for (let newTableIndex = 0; newTableIndex < newTablesArray.length; newTableIndex++){
+                newTablesInOneString = `${newTablesInOneString}  [${newTablesArray[newTableIndex]}]`;
+            }
+            console.log(`${newTablesInOneString} ---> ${numOfSmallTablesContainedInBigTables} tables contained in original tables`);
         }
         const endTime = new Date().getTime();
         printFinalResults(totalRearrangements, numOfSuccessfulRearrangements);
