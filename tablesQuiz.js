@@ -8,9 +8,9 @@
 // let's rearrange the 12 people in 4 new tables:
 // Rearrangement for example that fit the requirements: (1,2,4) (3,5,9) (6,7,10) (8,11,12)
 // Rearrangement for example that does not fit the requirements: (1,5,9) (2,6,10) (3,7,11) (4,8,12)
+// * There is no meaning to inside order, means that rearrangement contains table (2,1,3) and rearrangement contains table (3,2,1) will not be counted as two rearrangements 
 
 class TablesRearrangement {
-
     rearrangePeopleInNewTablesSize(numOfOriginalTables, numOfPeopleInEachOriginalTable, totalRearrangements, numOfNewTables = numOfPeopleInEachOriginalTable, numOfPeopleInEachNewTable = numOfOriginalTables){
         const totalPeople = numOfOriginalTables * numOfPeopleInEachOriginalTable;
         if (numOfNewTables * numOfPeopleInEachNewTable > totalPeople){
@@ -52,14 +52,11 @@ class TablesRearrangement {
             console.log(`Total rearrangements with exactly ${i} tables contain people who sat together in original table: ${rearrangementsResults[i]}`);
         }
     }
-    
 }
 
 const tablesRearrangement = new TablesRearrangement();
-tablesRearrangement.rearrangePeopleInNewTablesSize(3, 4, 100);
+tablesRearrangement.rearrangePeopleInNewTablesSize(3, 3, 100, 2, 2);
 export default tablesRearrangement;
-
-
 
 
 
@@ -70,7 +67,6 @@ function prepareArrayOfConsecutiveNumbers(numOfConsecutiveNumbers){
     }
     return array;
 }
-
 function prepareArrayOfSubArrays(array, numOfElementsInEachSubArray, numOfSubArrays){
     let newArrayOfSubArrays = [];
     let tempArray = [];
@@ -83,7 +79,6 @@ function prepareArrayOfSubArrays(array, numOfElementsInEachSubArray, numOfSubArr
     }
     return newArrayOfSubArrays;
 }
-
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
@@ -91,7 +86,6 @@ function shuffleArray(array) {
     }
     return array;
 }
-
 function checkIfSubArraysOfArrayContainedInSubArraysOfOtherArray(arrayA, arrayB){
     let numOfTimesThatSubArraysOfArrayAAreIncludedInSubArraysOfArrayB = 0;
     for (let arrayAIndex = 0; arrayAIndex < arrayA.length; arrayAIndex++){
@@ -104,12 +98,10 @@ function checkIfSubArraysOfArrayContainedInSubArraysOfOtherArray(arrayA, arrayB)
     }
     return numOfTimesThatSubArraysOfArrayAAreIncludedInSubArraysOfArrayB;
 }
-
 function areArrayElementsIncludedInOtherArray(arrayA, arrayB) {
     // Check if every element in array 'arrayA' is included in array 'arrayB'
     return arrayA.every(element => arrayB.includes(element));
 }
-
 function printFinalResults(totalRearrangements, numOfSuccessfulRearrangements){
     const fractionOfSuccessfulRearrangements = (numOfSuccessfulRearrangements / totalRearrangements).toFixed(5);
     const percentageOfSuccessfulRearrangements = ((numOfSuccessfulRearrangements / totalRearrangements) * 100).toFixed(5);
@@ -119,7 +111,6 @@ function printFinalResults(totalRearrangements, numOfSuccessfulRearrangements){
     console.log(`Probability to get successful rearrangement: ${fractionOfSuccessfulRearrangements}`);
     console.log(`Percentage of successful rearrangements: ${percentageOfSuccessfulRearrangements} %`);
 }
-
 function printTimeDuration(startTime, endTime){
     const totalDurationInSeconds = Math.round((endTime - startTime) / 1000);
     const totalDurationInMinutes = ((endTime - startTime) / 60000).toFixed(1);
