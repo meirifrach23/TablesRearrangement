@@ -2,13 +2,13 @@
 // The purpose of this code is to create large number of rearrangements and calculate the probability to get rearrangement that will contain at least
 // one new table which all 3 people in this table would come from same original table of 4.
 // let's say we have 3 tables of 4 people while all 12 people are marked by numbers between 1-12:
-// table A: 1,2,3,4
-// table B: 5,6,7,8
-// table C: 9,10,11,12
+// table A: [1,2,3,4]
+// table B: [5,6,7,8]
+// table C: [9,10,11,12]
 // let's rearrange the 12 people in 4 new tables:
-// Rearrangement for example that fit the requirements: (1,2,4) (3,5,9) (6,7,10) (8,11,12)
-// Rearrangement for example that does not fit the requirements: (1,5,9) (2,6,10) (3,7,11) (4,8,12)
-// * There is no meaning to inside order, means that rearrangement contains table (2,1,3) and rearrangement contains table (3,2,1) will not be counted as two rearrangements 
+// Rearrangement for example that fit the requirements: [1,2,4] [3,5,9] [6,7,10] [8,11,12]
+// Rearrangement for example that does not fit the requirements: [1,5,9] [2,6,10] [3,7,11] [4,8,12]
+// The inside tables order is not important, so rearrangement that contains table [2,1,3] and rearrangement that contains table [3,2,1] will be counted as one rearrangement 
 
 class TablesRearrangement {
     rearrangePeopleInNewTablesSize(numOfOriginalTables, numOfPeopleInEachOriginalTable, totalRearrangements, numOfNewTables = numOfPeopleInEachOriginalTable, numOfPeopleInEachNewTable = numOfOriginalTables){
@@ -23,28 +23,10 @@ class TablesRearrangement {
         }
         const originalPeopleArray = prepareArrayOfConsecutiveNumbers(totalPeople);
         const originalTablesArray = prepareArrayOfSubArrays(originalPeopleArray, numOfPeopleInEachOriginalTable, numOfOriginalTables);
+        printOriginalTables(originalTablesArray);
         const startTime = new Date().getTime();
-        console.log(`Original tables:\n`);
-        for (let i = 0; i < originalTablesArray.length; i++){
-            console.log(`${originalTablesArray[i]}`);
-        }
-        let rearrangementsResults = Array.from({ length: numOfNewTables + 1 }, () => 0);
-        let numOfSuccessfulRearrangements = 0;
-        for (let rearrangementAttempt = 1; rearrangementAttempt <= totalRearrangements; rearrangementAttempt++){
-            const newPeopleArray = shuffleArray(originalPeopleArray);
-            const newTablesArray = prepareArrayOfSubArrays(newPeopleArray, numOfPeopleInEachNewTable, numOfNewTables);
-            const numOfSmallTablesContainedInBigTables = checkIfSubArraysOfArrayContainedInSubArraysOfOtherArray(newTablesArray, originalTablesArray);
-            if (numOfSmallTablesContainedInBigTables > 0){
-                numOfSuccessfulRearrangements++;
-            }
-            rearrangementsResults[numOfSmallTablesContainedInBigTables]++;
-
-            let newTablesInOneString = `New tables after rearrangement number ${rearrangementAttempt}: `;
-            for (let newTableIndex = 0; newTableIndex < newTablesArray.length; newTableIndex++){
-                newTablesInOneString = `${newTablesInOneString}  [${newTablesArray[newTableIndex]}]`;
-            }
-            console.log(`${newTablesInOneString} ---> ${numOfSmallTablesContainedInBigTables} tables contained in original tables`);
-        }
+        const rearrangementsResults = performRearrangementsAndReturnResults(originalTablesArray, numOfNewTables, numOfPeopleInEachNewTable, totalRearrangements, originalPeopleArray);
+        const numOfSuccessfulRearrangements = getNumberOfSuccessfulRearrangements(rearrangementsResults);
         const endTime = new Date().getTime();
         printFinalResults(totalRearrangements, numOfSuccessfulRearrangements);
         printTimeDuration(startTime, endTime);
@@ -78,6 +60,40 @@ function prepareArrayOfSubArrays(array, numOfElementsInEachSubArray, numOfSubArr
         }
     }
     return newArrayOfSubArrays;
+}
+function printOriginalTables(originalTablesArray){
+    console.log(`Original tables:\n`);
+    for (let i = 0; i < originalTablesArray.length; i++){
+        console.log(`${originalTablesArray[i]}`);
+    }
+}
+function performRearrangementsAndReturnResults(originalTablesArray, numOfNewTables, numOfPeopleInEachNewTable, totalRearrangements, originalPeopleArray){
+    let rearrangementsResults = Array.from({ length: numOfNewTables + 1 }, () => 0);
+    let numOfSuccessfulRearrangements = 0;
+    for (let rearrangementAttempt = 1; rearrangementAttempt <= totalRearrangements; rearrangementAttempt++){
+        const newPeopleArray = shuffleArray(originalPeopleArray);
+        const newTablesArray = prepareArrayOfSubArrays(newPeopleArray, numOfPeopleInEachNewTable, numOfNewTables);
+        const numOfSmallTablesContainedInBigTables = checkIfSubArraysOfArrayContainedInSubArraysOfOtherArray(newTablesArray, originalTablesArray);
+        if (numOfSmallTablesContainedInBigTables > 0){
+            numOfSuccessfulRearrangements++;
+        }
+        rearrangementsResults[numOfSmallTablesContainedInBigTables]++;
+
+        let newTablesInOneString = `New tables after rearrangement number ${rearrangementAttempt}: `;
+        for (let newTableIndex = 0; newTableIndex < newTablesArray.length; newTableIndex++){
+            newTablesInOneString = `${newTablesInOneString}  [${newTablesArray[newTableIndex]}]`;
+        }
+        console.log(`${newTablesInOneString} ---> ${numOfSmallTablesContainedInBigTables} tables contained in original tables`);
+    }
+    return rearrangementsResults;
+}
+function getNumberOfSuccessfulRearrangements(rearrangementsResults){
+    let numOfSuccessfulRearrangements = 0;
+    // Starting from i = 1 because first element is the total number of unsuccessful rearrangements
+    for (let i = 1; i < rearrangementsResults.length; i++){
+        numOfSuccessfulRearrangements = numOfSuccessfulRearrangements + rearrangementsResults[i];
+    }
+    return numOfSuccessfulRearrangements;
 }
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
