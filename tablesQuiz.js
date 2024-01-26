@@ -24,12 +24,9 @@ class TablesRearrangement {
         const originalPeopleArray = prepareArrayOfConsecutiveNumbers(totalPeople);
         const originalTablesArray = prepareArrayOfSubArrays(originalPeopleArray, numOfPeopleInEachOriginalTable, numOfOriginalTables);
         printOriginalTables(originalTablesArray);
-        const startTime = new Date().getTime();
         const rearrangementsResults = performRearrangementsAndReturnResults(originalTablesArray, numOfNewTables, numOfPeopleInEachNewTable, totalRearrangements, originalPeopleArray);
         const numOfSuccessfulRearrangements = getNumberOfSuccessfulRearrangements(rearrangementsResults);
-        const endTime = new Date().getTime();
         printFinalResults(totalRearrangements, numOfSuccessfulRearrangements);
-        printTimeDuration(startTime, endTime);
         for (let i = 0; i < rearrangementsResults.length; i++){
             console.log(`Total rearrangements with exactly ${i} tables contain people who sat together in original table: ${rearrangementsResults[i]}`);
         }
@@ -37,7 +34,7 @@ class TablesRearrangement {
 }
 
 const tablesRearrangement = new TablesRearrangement();
-tablesRearrangement.rearrangePeopleInNewTablesSize(3, 3, 100, 2, 2);
+tablesRearrangement.rearrangePeopleInNewTablesSize(3, 3, 10000, 2, 2);
 export default tablesRearrangement;
 
 
@@ -70,6 +67,7 @@ function printOriginalTables(originalTablesArray){
 function performRearrangementsAndReturnResults(originalTablesArray, numOfNewTables, numOfPeopleInEachNewTable, totalRearrangements, originalPeopleArray){
     let rearrangementsResults = Array.from({ length: numOfNewTables + 1 }, () => 0);
     let numOfSuccessfulRearrangements = 0;
+    const startTime = new Date().getTime();
     for (let rearrangementAttempt = 1; rearrangementAttempt <= totalRearrangements; rearrangementAttempt++){
         const newPeopleArray = shuffleArray(originalPeopleArray);
         const newTablesArray = prepareArrayOfSubArrays(newPeopleArray, numOfPeopleInEachNewTable, numOfNewTables);
@@ -85,11 +83,13 @@ function performRearrangementsAndReturnResults(originalTablesArray, numOfNewTabl
         }
         console.log(`${newTablesInOneString} ---> ${numOfSmallTablesContainedInBigTables} tables contained in original tables`);
     }
+    const endTime = new Date().getTime();
+    printTimeDuration(startTime, endTime);
     return rearrangementsResults;
 }
 function getNumberOfSuccessfulRearrangements(rearrangementsResults){
     let numOfSuccessfulRearrangements = 0;
-    // Starting from i = 1 because first element is the total number of unsuccessful rearrangements
+    // We start from i = 1 because first element is the total number of unsuccessful rearrangements
     for (let i = 1; i < rearrangementsResults.length; i++){
         numOfSuccessfulRearrangements = numOfSuccessfulRearrangements + rearrangementsResults[i];
     }
