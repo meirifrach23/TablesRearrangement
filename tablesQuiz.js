@@ -34,7 +34,7 @@ class TablesRearrangement {
 }
 
 const tablesRearrangement = new TablesRearrangement();
-tablesRearrangement.rearrangePeopleInNewTablesSize(3, 3, 10000, 2, 2);
+tablesRearrangement.rearrangePeopleInNewTablesSize(3, 4, 100);
 export default tablesRearrangement;
 
 
