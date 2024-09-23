@@ -34,8 +34,8 @@ class TablesRearrangement {
 }
 
 const tablesRearrangement = new TablesRearrangement();
-tablesRearrangement.rearrangePeopleInNewTablesSize(3, 4, 100);
-export default tablesRearrangement;
+tablesRearrangement.rearrangePeopleInNewTablesSize(5, 6, 100);
+export default tablesRearrangement; 
 
 
 
@@ -46,6 +46,7 @@ function prepareArrayOfConsecutiveNumbers(numOfConsecutiveNumbers){
     }
     return array;
 }
+
 function prepareArrayOfSubArrays(array, numOfElementsInEachSubArray, numOfSubArrays){
     let newArrayOfSubArrays = [];
     let tempArray = [];
@@ -81,7 +82,7 @@ function performRearrangementsAndReturnResults(originalTablesArray, numOfNewTabl
         for (let newTableIndex = 0; newTableIndex < newTablesArray.length; newTableIndex++){
             newTablesInOneString = `${newTablesInOneString}  [${newTablesArray[newTableIndex]}]`;
         }
-        console.log(`${newTablesInOneString} ---> ${numOfSmallTablesContainedInBigTables} tables contained in original tables`);
+        // console.log(`${newTablesInOneString} ---> ${numOfSmallTablesContainedInBigTables} tables contained in original tables`);
     }
     const endTime = new Date().getTime();
     printTimeDuration(startTime, endTime);
